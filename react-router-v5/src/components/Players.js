@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Link, Route, Switch, useRouteMatch, useParams, useLocation } from 'react-router-dom';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
 import { parse } from 'query-string';
 import slug from 'slug';
@@ -57,14 +58,22 @@ export default function Players () {
     <div className="container two-column">
       <Sidebar title="Players" list={players.map((player) => player.name)}/>
       <div className="panel">
-        <Switch>
-          <Route path={`${path}/:playerName`}>
-            <Player players={players} />
-          </Route>
-          <Route path='*'>
-            <div className="sidebar-instruction">Select a Player</div>
-          </Route>
-        </Switch>
+        <TransitionGroup component={null}>
+          <CSSTransition
+            classNames="fade"
+            timeout={500}
+            key={location.key}
+          >
+            <Switch location={location}>
+              <Route path={`${path}/:playerName`}>
+                <Player players={players} />
+              </Route>
+              <Route path='*'>
+                <div className="sidebar-instruction">Select a Player</div>
+              </Route>
+            </Switch>
+          </CSSTransition>
+        </TransitionGroup>
       </div>
     </div>
   )
