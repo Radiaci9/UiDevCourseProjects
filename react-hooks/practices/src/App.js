@@ -8,15 +8,13 @@ import Routes from './common/Routes';
 import Loading from './common/Loading';
 import SubPage from './common/SubPage';
 
-const CustomHookPage = React.lazy(() => import('./custom-hook'));
-const UseContextPage = React.lazy(() => import('./usecontext'));
-const UseEffectPage = React.lazy(() => import('./useeffect'));
-const UseReducerPage = React.lazy(() => import('./usereducer'));
-const UseRefPage = React.lazy(() => import('./useref'));
-// const UseStatePage = React.lazy(() => import('./usestate'));
 const UseStateThemePage = React.lazy(() => import('./usestate/theme'));
 const UseStateTodosPage = React.lazy(() => import('./usestate/todos'));
 const UseStateShowHidePage = React.lazy(() => import('./usestate/show-hide'));
+
+const UseEffectCharacterLimitPage = React.lazy(() => import('./useeffect/character-limit'));
+const UseEffectWaitDelayPage = React.lazy(() => import('./useeffect/wait-delay'));
+const UseEffectFetchPage = React.lazy(() => import('./useeffect/fetch'));
 
 const readmeList = [
   {
@@ -25,51 +23,51 @@ const readmeList = [
   },
   {
     practiceName: 'usestate-practice-todos',
-    herf: 'https://platform.ui.dev/courses/react-hooks/practice-todos' 
+    href: 'https://platform.ui.dev/courses/react-hooks/practice-todos' 
   },
   {
     practiceName: 'usestate-practice-show-hide',
-    herf: 'https://platform.ui.dev/courses/react-hooks/practice-show-hide' 
+    href: 'https://platform.ui.dev/courses/react-hooks/practice-show-hide' 
   },
   {
     practiceName: 'useeffect-practice-character-limit',
-    herf: '' 
+    href: 'https://platform.ui.dev/courses/react-hooks/practice-character-limit' 
   },
   {
     practiceName: 'useeffect-practice-wait-delay',
-    herf: '' 
+    href: 'https://platform.ui.dev/courses/react-hooks/practice-wait-delay' 
   },
   {
     practiceName: 'useeffect-practice-fetch',
-    herf: '' 
+    href: 'https://platform.ui.dev/courses/react-hooks/practice-api-requests' 
   },
   {
     practiceName: 'custom-hook-practice-usewait',
-    herf: '' 
+    href: '' 
   },
   {
     practiceName: 'custom-hooks-practice-browser-dimensions',
-    herf: '' 
+    href: '' 
   },
   {
     practiceName: 'custom-hook-practice-usefetch',
-    herf: '' 
+    href: '' 
   },
   {
     practiceName: 'usereducer-practice-usefetch',
-    herf: '' 
+    href: '' 
   },
   {
     practiceName: 'useref-practice-form',
-    herf: '' 
+    href: '' 
   },
   {
     practiceName: 'useref-practice-click-game',
-    herf: '' 
+    href: '' 
   },
   {
     practiceName: 'usecontext-practice-local',
-    herf: '' 
+    href: '' 
   },
 ]
 
@@ -125,17 +123,17 @@ const routes = [
       {
         path: '/character-limit',
         linkName: 'Character limit',
-        component: Home,
+        component: UseEffectCharacterLimitPage,
       },
       {
         path: '/wait-delay',
         linkName: 'Wait delay',
-        component: Home,
+        component: UseEffectWaitDelayPage,
       },
       {
         path: '/fetch',
         linkName: 'Fetch',
-        component: Home,
+        component: UseEffectFetchPage,
       },
     ]
   },
