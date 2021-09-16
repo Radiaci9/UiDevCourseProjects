@@ -1,0 +1,24 @@
+li.showHideLi {
+  margin: 50px;
+  list-style-type: none;
+  font-size: 30px;
+  padding: 20px;
+  border-radius: 5px;
+}
+
+img.showHideImg {
+  display: block;
+  margin: 0 auto;
+  width: 300px;
+}
+
+button.showHideBtn {
+  background: #222;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  width: 100px;
+  display: block;
+  font-size: 20px;
+}

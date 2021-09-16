@@ -1,0 +1,14 @@
+nav > a:not(:last-child) {
+  margin-right: 10px;
+}
+
+nav > a.active {
+  font-weight: 900;
+}
+
+nav.sub {
+  margin-top: 15px;
+  margin-left: 20px;
+  display: flex;
+  flex-direction: column;
+}
