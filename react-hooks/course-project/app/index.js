@@ -10,22 +10,26 @@ const Popular = React.lazy(() => import('./components/Popular'))
 const Battle = React.lazy(() => import('./components/Battle'))
 const Results = React.lazy(() => import('./components/Results'))
 
-class App extends React.Component {
-  state = {
-    theme: 'light',
-    toggleTheme: () => {
-      this.setState(({ theme }) => ({
-        theme: theme === 'light' ? 'dark' : 'light'
-      }))
-    }
+function App () {
+  const [theme, setTheme] = React.useState('light')
+
+  const toggleTheme = () => {
+    setTheme((theme) => {
+      return theme === 'light' ? 'dark' : 'light'
+    })
   }
-  render() {
-    return (
-      <Router>
-        <ThemeProvider value={this.state}>
-          <div className={this.state.theme}>
+
+  // const value = React.useMemo(() => ({
+  //   theme,
+  //   toggleTheme
+  // }), [theme])
+
+  return (
+    <Router>
+      <ThemeProvider value={theme}>
+          <div className={theme}>
             <div className='container'>
-              <Nav />
+              <Nav toggleTheme={toggleTheme}/>
 
               <React.Suspense fallback={<Loading />} >
                 <Switch>
@@ -36,11 +40,10 @@ class App extends React.Component {
                 </Switch>
               </React.Suspense>
             </div>
-          </div>
-        </ThemeProvider>
-      </Router>
-    )
-  }
+          </div>        
+      </ThemeProvider>
+    </Router>
+  )  
 }
 
 ReactDOM.render(
