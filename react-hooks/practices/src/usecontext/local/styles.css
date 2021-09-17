@@ -1,0 +1,49 @@
+li.localLi {
+  list-style-type: none;
+}
+
+.local-nav {
+  display: flex;
+  justify-content: space-between;
+}
+
+.local-nav button {
+  background: none;
+  border: none;
+}
+
+.local-nav ul {
+  display: flex;
+}
+
+.local-nav li {
+  margin-right: 30px;
+  /* padding-right: 10px; */
+}
+
+.employees {
+  text-align: left;
+}
+
+.employees h3 {
+  margin: 0;
+}
+
+.employees li {
+  margin: 20px;
+}
+
+.home p {
+  font-size: 30px;
+}
+
+button.localBtn {
+  background: #222;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  width: 100px;
+  display: block;
+  font-size: 20px;
+}

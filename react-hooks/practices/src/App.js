@@ -25,6 +25,8 @@ const UseReducerkUseFetchPage = React.lazy(() => import('./usereducer/usefetch')
 const UseRefFormPage = React.lazy(() => import('./useref/form'));
 const UseRefClickGamePage = React.lazy(() => import('./useref/click-game'));
 
+const UseContextLocalPage = React.lazy(() => import('./usecontext/local'));
+
 const readmeList = [
   {
     practiceName: 'usestate-practice-theme',
@@ -76,7 +78,7 @@ const readmeList = [
   },
   {
     practiceName: 'usecontext-practice-local',
-    href: '' 
+    href: 'https://platform.ui.dev/courses/react-hooks/practice-localecontext' 
   },
 ]
 
@@ -205,7 +207,7 @@ const routes = [
       {
         path: '/local',
         linkName: 'Local',
-        component: Home,
+        component: UseContextLocalPage,
       },
     ]
   },
