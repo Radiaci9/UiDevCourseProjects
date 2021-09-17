@@ -4,7 +4,7 @@ import RouteWithSubRoutes from "./RouteWithSubRoutes"
 
 export default function Routes ({ routes }) {
   const { path } = useRouteMatch();
-  console.log('Navbar');
+
   return (
     <>
     {

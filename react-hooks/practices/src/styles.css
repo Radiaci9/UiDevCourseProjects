@@ -12,3 +12,8 @@ nav.sub {
   display: flex;
   flex-direction: column;
 }
+
+.App {
+  font-family: sans-serif;
+  text-align: center;
+}

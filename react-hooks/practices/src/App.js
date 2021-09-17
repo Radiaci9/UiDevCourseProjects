@@ -16,6 +16,15 @@ const UseEffectCharacterLimitPage = React.lazy(() => import('./useeffect/charact
 const UseEffectWaitDelayPage = React.lazy(() => import('./useeffect/wait-delay'));
 const UseEffectFetchPage = React.lazy(() => import('./useeffect/fetch'));
 
+const CustomHookUseWaitPage = React.lazy(() => import('./custom-hook/usewait'));
+const CustomHookBrowserDimenstionsPage = React.lazy(() => import('./custom-hook/browser-dimensions'));
+const CustomHookUseFetchPage = React.lazy(() => import('./custom-hook/usefetch'));
+
+const UseReducerkUseFetchPage = React.lazy(() => import('./usereducer/usefetch'));
+
+const UseRefFormPage = React.lazy(() => import('./useref/form'));
+const UseRefClickGamePage = React.lazy(() => import('./useref/click-game'));
+
 const readmeList = [
   {
     practiceName: 'usestate-practice-theme',
@@ -43,27 +52,27 @@ const readmeList = [
   },
   {
     practiceName: 'custom-hook-practice-usewait',
-    href: '' 
+    href: 'https://platform.ui.dev/courses/react-hooks/practice-usewait' 
   },
   {
     practiceName: 'custom-hooks-practice-browser-dimensions',
-    href: '' 
+    href: 'https://platform.ui.dev/courses/react-hooks/practice-usewindowdimensions' 
   },
   {
     practiceName: 'custom-hook-practice-usefetch',
-    href: '' 
+    href: 'https://platform.ui.dev/courses/react-hooks/practice-usefetch' 
   },
   {
     practiceName: 'usereducer-practice-usefetch',
-    href: '' 
+    href: 'https://platform.ui.dev/courses/react-hooks/practice-refactor-usefetch' 
   },
   {
     practiceName: 'useref-practice-form',
-    href: '' 
+    href: 'https://platform.ui.dev/courses/react-hooks/practice-complex-form' 
   },
   {
     practiceName: 'useref-practice-click-game',
-    href: '' 
+    href: 'https://platform.ui.dev/courses/react-hooks/practice-click-game' 
   },
   {
     practiceName: 'usecontext-practice-local',
@@ -145,17 +154,17 @@ const routes = [
       {
         path: '/usewait',
         linkName: 'Usewait',
-        component: Home,
+        component: CustomHookUseWaitPage,
       },
       {
         path: '/browser-dimensions',
         linkName: 'Browser dimensions',
-        component: Home,
+        component: CustomHookBrowserDimenstionsPage,
       },
       {
         path: '/usefetch',
         linkName: 'Usefetch',
-        component: Home,
+        component: CustomHookUseFetchPage,
       },
     ]
   },
@@ -167,7 +176,7 @@ const routes = [
       {
         path: '/usefetch',
         linkName: 'Usefetch',
-        component: Home,
+        component: UseReducerkUseFetchPage,
       },
     ]
   },
@@ -179,12 +188,12 @@ const routes = [
       {
         path: '/form',
         linkName: 'Form',
-        component: Home,
+        component: UseRefFormPage,
       },
       {
         path: '/click-game',
         linkName: 'Click game',
-        component: Home,
+        component: UseRefClickGamePage,
       },
     ]
   },
