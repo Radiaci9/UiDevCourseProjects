@@ -1,14 +1,16 @@
 import React from 'react'
-import { battle } from '../utils/api'
-import { FaCompass, FaBriefcase, FaUsers, FaUserFriends, FaCode, FaUser } from 'react-icons/fa'
+import { battle, Player, Players } from '../utils/api'
+import { FaCompass, FaBriefcase, FaUsers, FaUserFriends, FaUser } from 'react-icons/fa'
 import Card from './Card'
 import PropTypes from 'prop-types'
 import Loading from './Loading'
 import Tooltip from './Tooltip'
 import queryString from 'query-string'
 import { Link } from 'react-router-dom'
+import { User } from '../utils/api'
 
-function ProfileList ({ profile }) {
+
+function ProfileList ({ profile }: { profile: User}) {
   return (
     <ul className='card-list'>
       <li>
@@ -50,7 +52,26 @@ ProfileList.propTypes = {
 const SUCCESS = 'SUCCESS'
 const ERROR = 'ERROR' 
 
-const profileReducer = (state, action) => {
+interface ProfileReducerState {
+  winner: Player | null,
+  loser: Player | null,
+  error: string | null,
+  loading: boolean,
+}
+
+interface ProfileSuccessAction {
+  type: 'SUCCESS'
+  players: Players,
+}
+
+interface ProfileErrorAction {
+  type: 'ERROR'
+  message: string,
+}
+
+type ProfileReducerActions = ProfileSuccessAction | ProfileErrorAction
+
+const profileReducer = (state: ProfileReducerState, action: ProfileReducerActions): ProfileReducerState => {
   if (action.type === SUCCESS) {
     return {
       winner: action.players[0],
@@ -62,13 +83,14 @@ const profileReducer = (state, action) => {
   if (action.type === ERROR) {
     return {
       ...state,
-      error: action.message
+      error: action.message,
+      loading: false
     }
   }
   throw new Error(`That action type isn't supported`)
 }
 
-export default function Results ({ location }) {
+export default function Results ({ location }: { location: { search: string }}) {
   const { playerOne, playerTwo } = queryString.parse(location.search)
 
   const [state, dispatch] = React.useReducer(profileReducer, {
@@ -79,14 +101,14 @@ export default function Results ({ location }) {
   })
 
   React.useEffect(() => {
-    battle([ playerOne, playerTwo ])
+    battle([ playerOne, playerTwo ] as [string, string])
       .then((players) => dispatch({ type: SUCCESS, players }))
       .catch(({ message }) => dispatch({ type: ERROR, message }))
   }, [ playerOne, playerTwo ])
 
   const { loading, error, winner, loser } = state
 
-  if (loading) {
+  if (loading || !winner || !loser) {
     return <Loading text='Battling' />
   }
 

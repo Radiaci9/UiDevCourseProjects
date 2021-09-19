@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 
 const styles = {
@@ -9,18 +9,19 @@ const styles = {
     right: '0',
     marginTop: '20px',
     textAlign: 'center',
-  }
+  } as React.CSSProperties
 }
 
 export default function Loading ({
   text,
   speed,
+}: {
+  text: string,
+  speed: number,
 }) {
-  console.log(text)
-  console.log(speed)
   const [content, setContent] = React.useState(text)
 
-  useEffect(() => {
+  React.useEffect(() => {
     const id = setInterval(() => {
       setContent((oldContent) => oldContent === text + '...' ? text : `${oldContent}.`)
     }, speed)

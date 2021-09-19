@@ -2,7 +2,37 @@ const id = "YOUR_CLIENT_ID"
 const sec = "YOUR_SECRET_ID"
 const params = `?client_id=${id}&client_secret=${sec}`
 
-function getErrorMsg (message, username) {
+export interface Repo {
+  name: string,
+  owner: User,
+  html_url: string,
+  stargazers_count: number,
+  forks: number,
+  open_issues: number,
+}
+
+export type Repos = Repo[]
+
+export interface User {
+  login: string,
+  name: string,
+  location?: string,
+  company?: string,
+  avatar_url: string,
+  html_url: string,
+  followers: number,
+  following: number,
+}
+
+export interface Player {
+  profile: User,
+  score: number,
+}
+
+export type Players = Player[]
+
+
+function getErrorMsg (message: string, username: string) {
   if (message === 'Not Found') {
     return `${username} doesn't exist`
   }
@@ -10,7 +40,7 @@ function getErrorMsg (message, username) {
   return message
 }
 
-function getProfile (username) {
+function getProfile (username: string): Promise<User> {
   return fetch(`https://api.github.com/users/${username}${params}`)
     .then((res) => res.json())
     .then((profile) => {
@@ -22,7 +52,7 @@ function getProfile (username) {
     })
 }
 
-function getRepos (username) {
+function getRepos (username: string) {
   return fetch(`https://api.github.com/users/${username}/repos${params}&per_page=100`)
     .then((res) => res.json())
     .then((repos) => {
@@ -30,19 +60,19 @@ function getRepos (username) {
         throw new Error(getErrorMsg(repos.message, username))
       }
 
-      return repos
+      return repos as Repos
     })
 }
 
-function getStarCount (repos) {
+function getStarCount (repos: Repos) {
   return repos.reduce((count, { stargazers_count }) => count + stargazers_count , 0)
 }
 
-function calculateScore (followers, repos) {
+function calculateScore (followers: number, repos: Repos) {
   return (followers * 3) + getStarCount(repos)
 }
 
-function getUserData (player) {
+function getUserData (player: string): Promise<Player> {
   return Promise.all([
     getProfile(player),
     getRepos(player)
@@ -52,18 +82,18 @@ function getUserData (player) {
   }))
 }
 
-function sortPlayers (players) {
+function sortPlayers (players: Players) {
   return players.sort((a, b) => b.score - a.score)
 }
 
-export function battle (players) {
+export function battle (players: [string, string]) {
   return Promise.all([
     getUserData(players[0]),
     getUserData(players[1])
   ]).then((results) => sortPlayers(results))
 }
 
-export function fetchPopularRepos (language) {
+export function fetchPopularRepos (language: string) {
   const endpoint = window.encodeURI(`https://api.github.com/search/repositories?q=stars:>1+language:${language}&sort=stars&order=desc&type=Repositories`)
 
   return fetch(endpoint)
@@ -73,6 +103,6 @@ export function fetchPopularRepos (language) {
         throw new Error(data.message)
       }
 
-      return data.items
+      return data.items as Repos
     })
 }

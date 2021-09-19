@@ -5,9 +5,12 @@ import { FaUser, FaStar, FaCodeBranch, FaExclamationTriangle } from 'react-icons
 import Card from './Card'
 import Loading from './Loading'
 import Tooltip from './Tooltip'
+import { Repos } from '../utils/api'
 
-function LangaugesNav ({ selected, onUpdateLanguage }) {
-  const languages = ['All', 'JavaScript', 'Ruby', 'Java', 'CSS', 'Python']
+type Languages = 'All' | 'JavaScript' | 'Ruby' | 'Java' | 'CSS' | 'Python'
+
+function LangaugesNav ({ selected, onUpdateLanguage }: { selected: Languages, onUpdateLanguage: (l: Languages) => void}) {
+  const languages: Languages[] = ['All', 'JavaScript', 'Ruby', 'Java', 'CSS', 'Python']
 
   return (
     <ul className='flex-center'>
@@ -15,7 +18,7 @@ function LangaugesNav ({ selected, onUpdateLanguage }) {
         <li key={language}>
           <button
             className='btn-clear nav-link'
-            style={language === selected ? { color: 'rgb(187, 46, 31)' } : null}
+            style={language === selected ? { color: 'rgb(187, 46, 31)' } : undefined}
             onClick={() => onUpdateLanguage(language)}>
             {language}
           </button>
@@ -30,11 +33,11 @@ LangaugesNav.propTypes = {
   onUpdateLanguage: PropTypes.func.isRequired
 }
 
-function ReposGrid ({ repos }) {
+function ReposGrid ({ repos }: { repos: Repos }) {
   return (
     <ul className='grid space-around'>
       {repos.map((repo, index) => {
-        const { name, owner, html_url, stargazers_count, forks, open_issues } = repo
+        const { owner, html_url, stargazers_count, forks, open_issues } = repo
         const { login, avatar_url } = owner
 
         return (
@@ -83,7 +86,29 @@ const LOADING = 'LOADING'
 const SUCCESS = 'SUCCESS'
 const ERROR = 'ERROR' 
 
-const popularReducer = (state, action) => {
+
+interface PopularReducerState extends Partial<Record<Languages, Repos>> {
+  error: string | null
+}
+
+interface PopularLoadingAction {
+  type: 'LOADING'
+}
+
+interface PopularSuccessAction {
+  type: 'SUCCESS',
+  selectedLanguage: Languages,
+  repos: Repos
+}
+
+interface PopularErrorAction {
+  type: 'ERROR',
+  error: Error
+}
+
+type PopularReducerActions = PopularLoadingAction | PopularSuccessAction | PopularErrorAction
+
+const popularReducer = (state: PopularReducerState, action: PopularReducerActions): PopularReducerState => {
   if (action.type === LOADING) {
     return {
       ...state,
@@ -107,13 +132,12 @@ const popularReducer = (state, action) => {
 }
 
 export default function Popular () {
-  const [selectedLanguage, setSelectedLanguage] = React.useState('All')
+  const [selectedLanguage, setSelectedLanguage] = React.useState<Languages>('All')
   const [state, dispatch] = React.useReducer(popularReducer, {
-    error: null,
-    repos: {}
+    error: null
   })
   
-  const fetchedLanguages = React.useRef([])
+  const fetchedLanguages = React.useRef<Languages[]>([])
 
   React.useEffect(() => {
     if (!fetchedLanguages.current.includes(selectedLanguage)) {
@@ -130,6 +154,8 @@ export default function Popular () {
 
   const isLoading = () => !state[selectedLanguage] && state.error === null
 
+  const selectedRepos = state[selectedLanguage]
+
   return (
     <React.Fragment>
       <LangaugesNav
@@ -141,7 +167,7 @@ export default function Popular () {
 
       {state.error && <p className='center-text error'>{state.error}</p>}
 
-      {state[selectedLanguage] && <ReposGrid repos={state[selectedLanguage]} />}
+      {selectedRepos && <ReposGrid repos={selectedRepos} />}
     </React.Fragment>
   )
 }
