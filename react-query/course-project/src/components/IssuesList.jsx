@@ -1,4 +1,3 @@
-import { useQuery } from "react-query";
 import useIssuesList from "../queries/useIssuesList";
 import IssueItem from "./IssueItem";
 
