@@ -2,6 +2,7 @@ import { GoIssueOpened, GoIssueClosed, GoComment } from "react-icons/go";
 import { Link } from "react-router-dom";
 import { relativeDate } from "../helpers/relativeDate";
 import useUserData from "../queries/useUserData";
+import Label from "./Label";
 
 const STATUSES = {
   DONE: "done",
@@ -21,7 +22,6 @@ const IssueItem = ({
   const {isSuccess: isAssigneeUserSuccess, data: assigneeUser} = useUserData(assignee);
   const {isSuccess: isCreatedByUserSuccess, data: createdByUser} = useUserData(createdBy);
 
-  console.log(assigneeUser);
   return (
     <li>
       <div>
@@ -36,9 +36,7 @@ const IssueItem = ({
           <Link to={`/issue/${number}`}>{title}</Link>
           {
             labels.map((label) => (
-              <span key={label} className={`label red`}>
-                {label}
-              </span>
+              <Label key={label} label={label} />
             ))
           }
         </span>

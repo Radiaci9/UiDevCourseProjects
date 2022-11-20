@@ -2,7 +2,10 @@ import { useQuery } from "react-query";
 
 const useUserData = (userId) => useQuery(
   ["users", userId],
-  () => fetch(`/api/users/${userId}`).then(res => res.json())
+  () => fetch(`/api/users/${userId}`).then(res => res.json()),
+  {
+    enabled: !!userId
+  }
 );
 
 export default useUserData;
