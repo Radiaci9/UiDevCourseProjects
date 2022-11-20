@@ -1,8 +1,8 @@
 import useIssuesList from "../queries/useIssuesList";
 import IssueItem from "./IssueItem";
 
-const IssuesList = ({labels}) => {
-  const {isLoading, data} = useIssuesList({labels});
+const IssuesList = ({labels, status}) => {
+  const {isLoading, data} = useIssuesList({labels, status});
 
   return (
     <div>
