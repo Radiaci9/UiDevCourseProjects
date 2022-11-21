@@ -1,13 +1,9 @@
 import { GoIssueOpened, GoIssueClosed, GoComment } from "react-icons/go";
 import { Link } from "react-router-dom";
+import { STATUSES } from "../helpers/constants";
 import { relativeDate } from "../helpers/relativeDate";
 import useUserData from "../queries/useUserData";
 import Label from "./Label";
-
-const STATUSES = {
-  DONE: "done",
-  CANCELLED: "cancelled",
-};
 
 const IssueItem = ({
   title,
