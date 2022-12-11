@@ -5,7 +5,7 @@ const useUserData = (userId) => useQuery(
   () => fetch(`/api/users/${userId}`).then(res => res.json()),
   {
     enabled: !!userId,
-    staleTime: 1000 *60,
+    staleTime: 1000 * 60 * 5,
   }
 );
 

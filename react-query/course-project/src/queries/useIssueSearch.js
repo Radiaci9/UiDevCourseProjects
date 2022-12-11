@@ -8,9 +8,6 @@ const useIssueSearch = (searchValue) => useQuery(
   {
     enabled: searchValue.length > 1,
   },
-  {
-    staleTime: 1000 * 60,
-  }
 );
 
 export default useIssueSearch;
