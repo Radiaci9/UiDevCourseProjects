@@ -5,7 +5,7 @@ import IssueItem from "./IssueItem";
 
 const IssuesList = ({labels, status}) => {
   const [searchValue, setSearchValue] = useState("");
-  const {isLoading, data} = useIssuesList({labels, status});
+  const {isLoading, data, isError: isIssueError, error: issueError} = useIssuesList({labels, status});
   const {fetchStatus, isLoading: isSearchLoading, data: searchedIssues} = useIssueSearch(searchValue);
 
   return (
@@ -29,7 +29,7 @@ const IssuesList = ({labels, status}) => {
       </form>
       <h2>Issues List</h2>
       {
-        isLoading ? <p>Loading...</p> : fetchStatus === "idle" && isSearchLoading ? (
+        isLoading ? <p>Loading...</p> : isIssueError ? <p>{issueError}</p> : fetchStatus === "idle" && isSearchLoading ? (
           <ul className="issues-list">
             {
               data.map((issue) => (
