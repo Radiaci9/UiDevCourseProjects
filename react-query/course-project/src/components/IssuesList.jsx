@@ -4,9 +4,9 @@ import useIssueSearch from "../queries/useIssueSearch";
 import IssueItem from "./IssueItem";
 import Loader from "./Loader";
 
-const IssuesList = ({labels, status}) => {
+const IssuesList = ({labels, status, pageNum, setPageNum}) => {
   const [searchValue, setSearchValue] = useState("");
-  const {isLoading, data, isError: isIssuesError, error: issuesError, isFetching: isIssuesListFetching} = useIssuesList({labels, status});
+  const issuesQuery = useIssuesList({labels, status, pageNum });
   const {fetchStatus, isLoading: isSearchLoading, data: searchedIssues} = useIssueSearch(searchValue);
 
   return (
@@ -28,26 +28,58 @@ const IssuesList = ({labels, status}) => {
           }}
         />
       </form>
-      <h2>Issues List {isIssuesListFetching ? <Loader /> : null}</h2>
+      <h2>Issues List {issuesQuery.isFetching ? <Loader /> : null}</h2>
       {
-        isLoading ? <p>Loading...</p> : isIssuesError ? <p>{issuesError}</p> : fetchStatus === "idle" && isSearchLoading ? (
-          <ul className="issues-list">
-            {
-              data.map((issue) => (
-                <IssueItem
-                  key={issue.id}
-                  title={issue.title}
-                  number={issue.number}
-                  assignee={issue.assignee}
-                  commentCount={issue.comments.length}
-                  createdBy={issue.createdBy}
-                  createdDate={issue.createdDate}
-                  labels={issue.labels}
-                  status={issue.status}
-                />
-              ))
-            }
-          </ul>
+        issuesQuery.isLoading ? <p>Loading...</p> : issuesQuery.isError ? <p>{issuesQuery.error}</p> : fetchStatus === "idle" && isSearchLoading ? (
+          <>
+            <ul className="issues-list">
+              {
+                issuesQuery.data.map((issue) => (
+                  <IssueItem
+                    key={issue.id}
+                    title={issue.title}
+                    number={issue.number}
+                    assignee={issue.assignee}
+                    commentCount={issue.comments.length}
+                    createdBy={issue.createdBy}
+                    createdDate={issue.createdDate}
+                    labels={issue.labels}
+                    status={issue.status}
+                  />
+                ))
+              }
+            </ul>
+            <div className="pagination">
+              <button
+                onClick={() => {
+                  if (pageNum - 1 > 0) {
+                    setPageNum(pageNum - 1);
+                  }
+                }}
+                disabled={pageNum === 1}
+              >
+                Previous
+              </button>
+              <p>
+                Page {pageNum} {issuesQuery.isFetching ? "..." : ""}
+              </p>
+              <button
+                disabled={
+                  issuesQuery.data?.length === 0 || issuesQuery.isPreviousData
+                }
+                onClick={() => {
+                  if (
+                    issuesQuery.data?.length !== 0 &&
+                    !issuesQuery.isPreviousData
+                  ) {
+                    setPageNum(pageNum + 1);
+                  }
+                }}
+              >
+                Next
+              </button>
+            </div>
+          </>
         ) : (
           <>
             <h2>Search Results</h2>
@@ -80,3 +112,4 @@ const IssuesList = ({labels, status}) => {
 }
 
 export default IssuesList;
+

@@ -7,14 +7,16 @@ import { Link } from "react-router-dom";
 export default function Issues() {
   const [labels, setLabels] = useState([]);
   const [status, setStatus] = useState("");
+  const [pageNum, setPageNum] = useState(1);
 
-  const toggleLabel = useCallback((label) =>
-    setLabels((currentLabels) =>
-      currentLabels.includes(label)
-        ? currentLabels.filter((currentLabel) => currentLabel !== label)
-        : currentLabels.concat(label)
-    ),
-    [setLabels]
+  const toggleLabel = useCallback((label) => {
+      setLabels((currentLabels) =>
+        currentLabels.includes(label)
+          ? currentLabels.filter((currentLabel) => currentLabel !== label)
+          : currentLabels.concat(label)
+      );
+      setPageNum(1);
+    }, [setLabels],
   );
 
   return (
@@ -22,14 +24,22 @@ export default function Issues() {
       <main>
         <section>
           <h1>Issues</h1>
-          <IssuesList labels={labels} status={status} />
+          <IssuesList
+            labels={labels}
+            status={status}
+            pageNum={pageNum}
+            setPageNum={setPageNum}
+          />
         </section>
         <aside>
           <LabelList selected={labels} toggle={toggleLabel} />
           <h3>Status</h3>
           <StatusSelect
             value={status}
-            onChange={((event) => setStatus(event.target.value))}
+            onChange={((event) => {
+              setStatus(event.target.value);
+              setPageNum(1);
+            })}
           />
           <hr />
           <Link className="button" to="/add">
