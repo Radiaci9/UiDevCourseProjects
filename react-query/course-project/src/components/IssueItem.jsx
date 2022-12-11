@@ -1,6 +1,8 @@
 import { GoIssueOpened, GoIssueClosed, GoComment } from "react-icons/go";
+import { useQueryClient } from "react-query";
 import { Link } from "react-router-dom";
 import { STATUSES } from "../helpers/constants";
+import fetchWithError from "../helpers/fetchWithError";
 import { relativeDate } from "../helpers/relativeDate";
 import useUserData from "../queries/useUserData";
 import Label from "./Label";
@@ -15,11 +17,16 @@ const IssueItem = ({
   labels,
   status,
 }) => {
+  const queryClient = useQueryClient();
+
   const {isSuccess: isAssigneeUserSuccess, data: assigneeUser} = useUserData(assignee);
   const {isSuccess: isCreatedByUserSuccess, data: createdByUser} = useUserData(createdBy);
 
   return (
-    <li>
+    <li onMouseEnter={() => {
+      queryClient.prefetchQuery(["issues", String(number)], () => fetchWithError(`/api/issues/${number}`));
+      queryClient.prefetchQuery(["issues", String(number), "comments"], () => fetchWithError(`/api/issues/${number}/comments`));
+    }}>
       <div>
         {status === STATUSES.DONE || status === STATUSES.CANCELLED ? (
           <GoIssueClosed style={{color: "red"}} />
