@@ -1,9 +1,7 @@
 import { useMutation, useQueryClient } from "react-query";
-import { useNavigate } from "react-router-dom";
 
 const useAddIssue = ({onSuccess}) => {
   const queryClient = useQueryClient();
-  const navigate = useNavigate();
   
   return useMutation(
     (issueBody) =>
