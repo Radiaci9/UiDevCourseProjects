@@ -5,6 +5,7 @@ import IssueHeader from "./IssueHeader";
 import Comment from "./Comment";
 import IssueStatus from "./IssueStatus";
 import IssueAssignment from "./IssueAssignment";
+import IssueLabels from "./IssueLabels";
 
 export default function IssueDetails() {
   const { number } = useParams();
@@ -36,6 +37,10 @@ export default function IssueDetails() {
               />
               <IssueAssignment
                 assignee={issue.assignee}
+                issueNumber={String(issue.number)}
+              />
+              <IssueLabels
+                labels={issue.labels}
                 issueNumber={String(issue.number)}
               />
             </aside>

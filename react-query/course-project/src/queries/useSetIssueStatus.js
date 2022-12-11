@@ -5,7 +5,7 @@ const useSetIssueStatus = ({issueNumber}) => {
   
   return useMutation(
     (status) => {
-      fetch(`/api/issues/${issueNumber}`, {
+      return fetch(`/api/issues/${issueNumber}`, {
         method: "PUT",
         headers: {
           "content-type": "application/json",

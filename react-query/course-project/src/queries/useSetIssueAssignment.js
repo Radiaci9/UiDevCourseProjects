@@ -5,7 +5,7 @@ const useSetIssueAssignment = ({issueNumber}) => {
   
   return useMutation(
     (assignee) => {
-      fetch(`/api/issues/${issueNumber}`, {
+      return fetch(`/api/issues/${issueNumber}`, {
         method: "PUT",
         headers: {
           "content-type": "application/json",
@@ -24,7 +24,7 @@ const useSetIssueAssignment = ({issueNumber}) => {
           assignee,
         }));
 
-        return function rollback() {
+        return () => {
           queryClient.setQueryData(["issues", issueNumber], (data) => ({
             ...data,
             assignee: oldAssignee,
