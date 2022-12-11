@@ -25,7 +25,7 @@ const IssueItem = ({
   return (
     <li onMouseEnter={() => {
       queryClient.prefetchQuery(["issues", String(number)], () => fetchWithError(`/api/issues/${number}`));
-      queryClient.prefetchQuery(["issues", String(number), "comments"], () => fetchWithError(`/api/issues/${number}/comments`));
+      queryClient.prefetchInfiniteQuery(["issues", String(number), "comments"], () => fetchWithError(`/api/issues/${number}/comments?page=1`));
     }}>
       <div>
         {status === STATUSES.DONE || status === STATUSES.CANCELLED ? (
