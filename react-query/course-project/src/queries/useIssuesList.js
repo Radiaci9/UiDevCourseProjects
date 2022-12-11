@@ -6,6 +6,9 @@ const useIssuesList = ({labels, status}) => useQuery(
     const statusQuery = status ? `&status=${status}` : '';
     const labelQuery = labels.map((label) => `labels[]=${label}`).join("&")
     return fetch(`/api/issues?${labelQuery}${statusQuery}`).then(res => res.json());
+  },
+  {
+    staleTime: 1000 * 60,
   }
 );
 
