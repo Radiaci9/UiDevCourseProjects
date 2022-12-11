@@ -2,10 +2,11 @@ import { useState } from "react";
 import useIssuesList from "../queries/useIssuesList";
 import useIssueSearch from "../queries/useIssueSearch";
 import IssueItem from "./IssueItem";
+import Loader from "./Loader";
 
 const IssuesList = ({labels, status}) => {
   const [searchValue, setSearchValue] = useState("");
-  const {isLoading, data, isError: isIssueError, error: issueError} = useIssuesList({labels, status});
+  const {isLoading, data, isError: isIssuesError, error: issuesError, isFetching: isIssuesListFetching} = useIssuesList({labels, status});
   const {fetchStatus, isLoading: isSearchLoading, data: searchedIssues} = useIssueSearch(searchValue);
 
   return (
@@ -27,9 +28,9 @@ const IssuesList = ({labels, status}) => {
           }}
         />
       </form>
-      <h2>Issues List</h2>
+      <h2>Issues List {isIssuesListFetching ? <Loader /> : null}</h2>
       {
-        isLoading ? <p>Loading...</p> : isIssueError ? <p>{issueError}</p> : fetchStatus === "idle" && isSearchLoading ? (
+        isLoading ? <p>Loading...</p> : isIssuesError ? <p>{issuesError}</p> : fetchStatus === "idle" && isSearchLoading ? (
           <ul className="issues-list">
             {
               data.map((issue) => (
